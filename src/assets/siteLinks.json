@@ -1,0 +1,32 @@
+[
+  {
+    "icon": "Blog",
+    "name": "博客",
+    "link": "https://blog.nth2miss.cn/"
+  },
+  {
+    "icon": "Cloud",
+    "name": "Open List",
+    "link": "https://oplist.nth2miss.cn/"
+  },
+  {
+    "icon": "EnvelopeRegular",
+    "name": "Cloud Mail",
+    "link": "https://mail.soyorin.net/"
+  },
+  {
+    "icon": "Chromecast",
+    "name": "屏幕分享",
+    "link": "https://screen.soyorin.net/"
+  },
+  {
+    "icon": "Cloud",
+    "name": "对象存储",
+    "link": "https://s3.soyorin.net/"
+  },
+  {
+    "icon": "LaptopCode",
+    "name": "状态监控",
+    "link": "https://sleepy.soyorin.net/"
+  }
+]
