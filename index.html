@@ -6,16 +6,40 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="%VITE_SITE_LOGO%" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icon/32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/images/icon/48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/icon/96.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon/192.png" />
     <link rel="apple-touch-icon" href="%VITE_SITE_APPLE_LOGO%" />
     <link rel="bookmark" href="%VITE_SITE_APPLE_LOGO%" />
     <link rel="apple-touch-icon-precomposed" sizes="200x200" href="%VITE_SITE_APPLE_LOGO%" />
     <meta name="description" content="%VITE_SITE_DES%" />
     <meta name="keywords" content="%VITE_SITE_KEYWORDS%" />
     <meta name="author" content="%VITE_SITE_AUTHOR%" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://soyorin.net/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="%VITE_SITE_NAME%" />
+    <meta property="og:description" content="%VITE_SITE_DES%" />
+    <meta property="og:url" content="https://soyorin.net/" />
+    <meta property="og:image" content="%VITE_SITE_MAIN_LOGO%" />
     <meta name="theme-color" content="#424242" />
     <title>%VITE_SITE_NAME%</title>
     <!-- HarmonyOS Sans -->
-     <link rel="stylesheet" href="https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css`" />
+    <link rel="stylesheet" href="https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "%VITE_SITE_NAME%",
+        "url": "https://soyorin.net/",
+        "description": "%VITE_SITE_DES%",
+        "author": {
+          "@type": "Person",
+          "name": "%VITE_SITE_AUTHOR%"
+        }
+      }
+    </script>
     <!-- IE Out -->
     <script>
       if (/*@cc_on!@*/ false || (!!window.MSInputMethodContext && !!document.documentMode))
@@ -30,7 +54,11 @@
     <div id="app"></div>
     <!-- noscript -->
     <noscript>
-      <div style="text-align: center">请开启 JavaScript</div>
+      <section style="max-width: 720px; margin: 15vh auto; padding: 24px; line-height: 1.8; text-align: center">
+        <h1>Nth2Missの主页</h1>
+        <p>Nth2Miss 的个人站点导航页，方便快速访问博客、工具、服务和其他个人站点入口。</p>
+        <p>完整体验需要开启 JavaScript。</p>
+      </section>
     </noscript>
     <script type="module" src="/src/main.js"></script>
   </body>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://soyorin.net/sitemap.xml
