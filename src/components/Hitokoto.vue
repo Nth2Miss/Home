@@ -1,6 +1,7 @@
 <template>
   <div
     class="hitokoto cards"
+    data-nosnippet
     v-show="!store.musicOpenState"
     @mouseenter="openMusicShow = true"
     @mouseleave="openMusicShow = false"

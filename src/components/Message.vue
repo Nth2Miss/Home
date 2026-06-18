@@ -7,7 +7,7 @@
         <span class="sm">.{{ siteUrl[1] }}</span>
       </div>
     </div>
-    <div class="description cards" @click="changeBox">
+    <div class="description cards" data-nosnippet @click="changeBox">
       <div class="content">
         <Icon size="16">
           <QuoteLeft />
