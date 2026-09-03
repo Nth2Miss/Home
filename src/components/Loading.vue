@@ -1,12 +1,12 @@
 <template>
   <div id="loader-wrapper" :class="store.imgLoadStatus ? 'loaded' : null">
     <div class="loader">
-      <div class="loader-circle" />
+      <img class="loader-image" src="/images/loading.gif" alt="加载动画" />
       <div class="loader-text">
         <span class="name">
           {{ siteName }}
         </span>
-        <span class="tip"> 加载中 </span>
+        <span class="tip"> 加载中{{ loadingMarks }} </span>
       </div>
     </div>
     <div class="loader-section section-left" />
@@ -21,6 +21,33 @@ const store = mainStore();
 
 // 配置
 const siteName = import.meta.env.VITE_SITE_NAME;
+const loadingMarks = ref("!");
+let loadingMarkTimer = null;
+
+// 使用感叹号循环表示加载进度
+const updateLoadingMarks = () => {
+  loadingMarks.value = loadingMarks.value.length >= 3 ? "!" : `${loadingMarks.value}!`;
+};
+
+const stopLoadingMarks = () => {
+  if (loadingMarkTimer) {
+    clearInterval(loadingMarkTimer);
+    loadingMarkTimer = null;
+  }
+};
+
+onMounted(() => {
+  loadingMarkTimer = setInterval(updateLoadingMarks, 500);
+});
+
+watch(
+  () => store.imgLoadStatus,
+  (loaded) => {
+    if (loaded) stopLoadingMarks();
+  },
+);
+
+onBeforeUnmount(stopLoadingMarks);
 </script>
 
 <style lang="scss" scoped>
@@ -42,40 +69,12 @@ const siteName = import.meta.env.VITE_SITE_NAME;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .loader-circle {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid transparent;
-      border-top-color: #fff;
-      animation: spin 1.8s linear infinite;
+    .loader-image {
+      width: min(80vw, 480px);
+      height: auto;
+      max-height: 50vh;
+      object-fit: contain;
       z-index: 2;
-
-      &:before {
-        content: "";
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        right: 5px;
-        bottom: 5px;
-        border-radius: 50%;
-        border: 3px solid transparent;
-        border-top-color: #a4a4a4;
-        animation: spin-reverse 0.6s linear infinite;
-      }
-
-      &:after {
-        content: "";
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        right: 15px;
-        bottom: 15px;
-        border-radius: 50%;
-        border: 3px solid transparent;
-        border-top-color: #d3d3d3;
-        animation: spin 1s linear infinite;
-      }
     }
     .loader-text {
       display: flex;
@@ -113,7 +112,7 @@ const siteName = import.meta.env.VITE_SITE_NAME;
       transform 0.3s 1s ease-out,
       visibility 0.3s 1s ease-out;
     .loader {
-      .loader-circle,
+      .loader-image,
       .loader-text {
         opacity: 0;
         transition: opacity 0.3s ease-out;
@@ -132,21 +131,4 @@ const siteName = import.meta.env.VITE_SITE_NAME;
   }
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin-reverse {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
 </style>
