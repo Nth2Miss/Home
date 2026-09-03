@@ -6,7 +6,7 @@
       class="bg"
       alt="cover"
       @load="imgLoadComplete"
-      @error.once="imgLoadError"
+      @error="imgLoadError"
       @animationend="imgAnimationEnd"
     />
     <div :class="store.backgroundShow ? 'gray hidden' : 'gray'" />
@@ -35,11 +35,38 @@ const emit = defineEmits(["loadComplete"]);
 // 壁纸随机数
 // 请依据文件夹内的图片个数修改 Math.random() 后面的第一个数字
 const bgRandom = Math.floor(Math.random() * 1 + 1);
+const isRandomBackgroundEnabled = import.meta.env.VITE_BG_RANDOM === "true";
+const configuredBackground = import.meta.env.VITE_BG_URL || "/images/soyo&anon.png";
+const randomBackgrounds = [
+  `/images/background${bgRandom}.jpg`,
+  `/images/background${bgRandom}.png`,
+];
+let randomBackgroundIndex = 0;
+
+// 设置随机壁纸，并保留 JPG/PNG 的兼容回退
+const setRandomBackground = (index = 0) => {
+  randomBackgroundIndex = index;
+  bgUrl.value = randomBackgrounds[randomBackgroundIndex];
+};
+
+// 设置配置文件中的固定壁纸
+const setConfiguredBackground = () => {
+  bgUrl.value = configuredBackground;
+};
+
+// 根据配置选择默认壁纸
+const setDefaultBackground = () => {
+  if (isRandomBackgroundEnabled) {
+    setRandomBackground();
+  } else {
+    setConfiguredBackground();
+  }
+};
 
 // 更换壁纸链接
 const changeBg = (type) => {
   if (type == 0) {
-    bgUrl.value = `/images/background${bgRandom}.jpg`;
+    setDefaultBackground();
   } else if (type == 1) {
     bgUrl.value = "https://api.dujin.org/bing/1920.php";
   } else if (type == 2) {
@@ -69,6 +96,25 @@ const imgAnimationEnd = () => {
 // 图片显示失败
 const imgLoadError = () => {
   console.error("壁纸加载失败：", bgUrl.value);
+
+  const isCurrentRandomBackground =
+    isRandomBackgroundEnabled && bgUrl.value === randomBackgrounds[randomBackgroundIndex];
+  if (isCurrentRandomBackground && randomBackgroundIndex < randomBackgrounds.length - 1) {
+    setRandomBackground(randomBackgroundIndex + 1);
+    return;
+  }
+
+  if (bgUrl.value === configuredBackground) {
+    ElMessage({
+      message: "本地壁纸加载失败，请检查图片文件",
+      icon: h(Error, {
+        theme: "filled",
+        fill: "#efefef",
+      }),
+    });
+    return;
+  }
+
   ElMessage({
     message: "壁纸加载失败，已临时切换回默认",
     icon: h(Error, {
@@ -76,7 +122,11 @@ const imgLoadError = () => {
       fill: "#efefef",
     }),
   });
-  bgUrl.value = `/images/background${bgRandom}.jpg`;
+  if (isCurrentRandomBackground) {
+    setConfiguredBackground();
+  } else {
+    setDefaultBackground();
+  }
 };
 
 // 监听壁纸切换
