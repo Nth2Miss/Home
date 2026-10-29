@@ -25,6 +25,12 @@ export default ({ mode }) =>
         workbox: {
           skipWaiting: true,
           clientsClaim: true,
+          // 导航回退只应接管页面路由。若不排除静态资源，在地址栏直接打开
+          // /favicon.ico、/robots.txt 等会返回 index.html，爬虫因此拿不到真实文件
+          navigateFallbackDenylist: [
+            /^\/favicon\.ico(?:\?.*)?$/,
+            /\.(?:png|jpe?g|gif|svg|ico|webp|avif|css|js|mjs|woff2?|ttf|otf|eot|json|xml|txt|webmanifest|map)(?:\?.*)?$/i,
+          ],
           runtimeCaching: [
             {
               urlPattern: /(.*?)\.(js|css|woff2|woff|ttf)/, // js / css 静态资源缓存
@@ -38,6 +44,11 @@ export default ({ mode }) =>
               handler: "CacheFirst",
               options: {
                 cacheName: "image-cache",
+                // 图标等资源换了文件名不变，加过期策略避免老访客长期看到旧图
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
+                },
               },
             },
           ],
